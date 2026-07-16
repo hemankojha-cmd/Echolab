@@ -31,7 +31,7 @@ function getSocketURL(){
         window.location.hostname !== "127.0.0.1"
     ){
 
-        return "return wss://your-real-backend-url.onrender.com";
+        return "wss://echolab-t461.onrender.com";
 
     }
 
