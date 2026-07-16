@@ -1,0 +1,35 @@
+.charts-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(450px,1fr));
+
+    gap:25px;
+
+    margin-top:30px;
+
+}
+
+.chart-card{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+.chart-card h2{
+
+    color:white;
+
+    margin-bottom:15px;
+
+}

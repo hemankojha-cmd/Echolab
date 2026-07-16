@@ -1,0 +1,799 @@
+/* =====================================================
+   GLOBAL CARD
+===================================================== */
+
+.card{
+
+    background:#1E293B;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:20px;
+
+    padding:24px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+    transition:.3s ease;
+
+    color:#F8FAFC;
+
+    overflow:hidden;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 40px rgba(0,0,0,.45);
+
+}
+
+/* =====================================================
+   HEADERS
+===================================================== */
+
+.card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.card h2{
+
+    margin:0;
+
+    font-size:22px;
+
+    font-weight:600;
+
+}
+
+.card p{
+
+    color:#94A3B8;
+
+}
+
+/* =====================================================
+   LIVE BADGE
+===================================================== */
+
+.live-badge{
+
+    background:#EF4444;
+
+    color:white;
+
+    padding:7px 16px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+
+    animation:pulse 1.5s infinite;
+
+}
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+.camera{
+
+    width:100%;
+
+    height:420px;
+
+    object-fit:cover;
+
+    border-radius:16px;
+
+    border:2px solid rgba(255,255,255,.06);
+
+}
+
+.camera-placeholder{
+
+    width:100%;
+
+    height:420px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:16px;
+
+    background:#0F172A;
+
+    color:#94A3B8;
+
+    font-size:18px;
+
+}
+
+/* =====================================================
+   STATUS ROW
+===================================================== */
+
+.status-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:20px;
+
+}
+
+/* =====================================================
+   STATUS BADGES
+===================================================== */
+
+.badge{
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+.on{
+
+    background:#14532D;
+
+    color:#4ADE80;
+
+}
+
+.off{
+
+    background:#7F1D1D;
+
+    color:#FCA5A5;
+
+}
+
+/* =====================================================
+   BULB GLOW
+===================================================== */
+
+.bulb-icon{
+
+    font-size:70px;
+
+    text-align:center;
+
+    transition:.4s;
+
+}
+
+.bulb-on{
+
+    color:#FFD54F;
+
+    text-shadow:
+
+        0 0 10px #FFD54F,
+
+        0 0 25px #FFD54F,
+
+        0 0 45px #FFD54F;
+
+}
+
+.bulb-off{
+
+    color:#64748B;
+
+}
+
+/* =====================================================
+   TOGGLE SWITCH
+===================================================== */
+
+.toggle-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+.toggle{
+
+    width:72px;
+
+    height:38px;
+
+    background:#475569;
+
+    border-radius:30px;
+
+    position:relative;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.toggle.active{
+
+    background:#22C55E;
+
+}
+
+.toggle-circle{
+
+    position:absolute;
+
+    width:30px;
+
+    height:30px;
+
+    top:4px;
+
+    left:4px;
+
+    background:white;
+
+    border-radius:50%;
+
+    transition:.35s;
+
+}
+
+.toggle.active .toggle-circle{
+
+    left:38px;
+
+}
+
+/* =====================================================
+   THERMOSTAT
+===================================================== */
+
+.temp-circle{
+
+    width:180px;
+
+    height:180px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+    font-weight:700;
+
+    background:#0F172A;
+
+    border:7px solid #38BDF8;
+
+    margin-top:25px;
+
+    margin-bottom:25px;
+
+    animation:rotateGlow 4s linear infinite;
+
+}
+
+.temp-controller{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.temp-controller button{
+
+    flex:1;
+
+}
+
+/* =====================================================
+   DOOR
+===================================================== */
+
+.big-status{
+
+    font-size:34px;
+
+    text-align:center;
+
+    margin:25px 0;
+
+    font-weight:700;
+
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2563EB;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#3B82F6;
+
+}
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        transform:scale(1.08);
+
+        opacity:.75;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes rotateGlow{
+
+    0%{
+
+        box-shadow:0 0 10px #38BDF8;
+
+    }
+
+    50%{
+
+        box-shadow:0 0 30px #38BDF8;
+
+    }
+
+    100%{
+
+        box-shadow:0 0 10px #38BDF8;
+
+    }
+
+}
+/* ===============================
+   CAMERA CARD
+================================= */
+
+.camera-card{
+
+    position:relative;
+
+}
+
+.camera-wrapper{
+
+    position:relative;
+
+}
+
+.camera{
+
+    width:100%;
+
+    height:450px;
+
+    object-fit:cover;
+
+    border-radius:16px;
+
+    display:block;
+
+}
+
+.camera-placeholder{
+
+    height:450px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:16px;
+
+    background:#0F172A;
+
+    color:#94A3B8;
+
+    font-size:18px;
+
+}
+
+.camera-overlay{
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:18px;
+
+    box-sizing:border-box;
+
+}
+
+.overlay-left,
+
+.overlay-right{
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(8px);
+
+    color:white;
+
+    padding:8px 14px;
+
+    border-radius:25px;
+
+    font-size:13px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.record-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#EF4444;
+
+    animation:cameraBlink 1s infinite;
+
+}
+
+@keyframes cameraBlink{
+
+    0%{
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        opacity:.25;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+    }
+
+}
+/* ==========================
+   BULB CARD
+========================== */
+
+.bulb-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:25px 0;
+
+}
+
+.bulb-icon{
+
+    font-size:90px;
+
+    transition:.4s;
+
+}
+
+.bulb-on{
+
+    animation:bulbGlow 1.5s infinite alternate;
+
+}
+
+.bulb-off{
+
+    opacity:.35;
+
+    filter:grayscale(1);
+
+}
+
+.status-text{
+
+    text-align:center;
+
+    margin-top:15px;
+
+    margin-bottom:25px;
+
+    font-size:17px;
+
+    color:#CBD5E1;
+
+}
+
+.toggle-wrapper{
+
+    margin-top:20px;
+
+}
+
+/* ==========================
+   BULB ANIMATION
+========================== */
+
+@keyframes bulbGlow{
+
+    0%{
+
+        transform:scale(1);
+
+        text-shadow:
+
+            0 0 10px #FFD54F,
+
+            0 0 20px #FFD54F;
+
+    }
+
+    100%{
+
+        transform:scale(1.08);
+
+        text-shadow:
+
+            0 0 25px #FFD54F,
+
+            0 0 60px #FFD54F,
+
+            0 0 90px #FFD54F;
+
+    }
+
+}
+/* ==========================
+   THERMOSTAT
+========================== */
+
+.temp-circle{
+
+    width:180px;
+
+    height:180px;
+
+    margin:30px auto;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#0F172A;
+
+    border:6px solid #38BDF8;
+
+    animation:thermoPulse 2s infinite;
+
+}
+
+.temp-circle h1{
+
+    margin:0;
+
+    font-size:48px;
+
+}
+
+.temp-circle span{
+
+    color:#94A3B8;
+
+    font-size:14px;
+
+}
+
+.temp-info{
+
+    text-align:center;
+
+    color:#94A3B8;
+
+    margin-bottom:20px;
+
+}
+
+.temp-controller{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+
+.temp-controller button{
+
+    font-size:28px;
+
+}
+
+@keyframes thermoPulse{
+
+    0%{
+
+        box-shadow:0 0 10px #38BDF8;
+
+    }
+
+    50%{
+
+        box-shadow:0 0 35px #38BDF8;
+
+    }
+
+    100%{
+
+        box-shadow:0 0 10px #38BDF8;
+
+    }
+
+}
+/* ==========================================
+   DOOR CARD
+========================================== */
+
+.door-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:30px 0;
+
+}
+
+.door-icon{
+
+    font-size:90px;
+
+    transition:.35s;
+
+}
+
+.locked{
+
+    animation:lockPulse 2s infinite;
+
+}
+
+.unlocked{
+
+    opacity:.75;
+
+}
+
+@keyframes lockPulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.08);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}

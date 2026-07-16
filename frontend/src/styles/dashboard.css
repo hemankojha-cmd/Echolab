@@ -1,0 +1,206 @@
+/* ===============================
+   DASHBOARD
+================================= */
+
+.dashboard{
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+    background:#0f172a;
+
+    box-sizing:border-box;
+
+}
+
+/* ===============================
+   KPI CARDS
+================================= */
+
+.analytics-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:20px;
+
+}
+
+/* ===============================
+   CAMERA + HEALTH
+================================= */
+
+.top-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+}
+
+/* ===============================
+   DEVICE CARDS
+================================= */
+
+.device-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+}
+
+/* ===============================
+   CHARTS
+================================= */
+
+.chart-section{
+
+    display:grid;
+
+    gap:25px;
+
+}
+
+/* ===============================
+   ACTIVITY
+================================= */
+
+.activity-section{
+
+    display:grid;
+
+}
+
+/* ===============================
+   COMMON PANELS
+================================= */
+
+.health-card,
+.bridge-card,
+.activity-card,
+.chart-card{
+
+    background:#1e293b;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+
+}
+
+/* ===============================
+   KPI CARDS
+================================= */
+
+.stat-card{
+
+    background:#1e293b;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+    transition:.25s;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.stat-card h3{
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+    margin-bottom:10px;
+
+}
+
+.stat-card h1{
+
+    color:white;
+
+    font-size:28px;
+
+}
+
+/* ===============================
+   RESPONSIVE
+================================= */
+
+@media(max-width:1200px){
+
+    .top-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .device-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .dashboard{
+
+        padding:15px;
+
+    }
+
+    .analytics-grid{
+
+        grid-template-columns:1fr 1fr;
+
+    }
+
+    .device-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .analytics-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
