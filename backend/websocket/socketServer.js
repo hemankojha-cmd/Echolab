@@ -3,7 +3,7 @@ const WebSocket = require("ws");
 const bridgeStore = require("../services/bridgeStore");
 const dashboardStore = require("../services/dashboardStore");
 const deviceStore = require("../services/deviceStore");
-const telemetryService = require("../telementry/telementryService");
+const telemetryService = require("../telemetry/telementryService");
 
 
 
