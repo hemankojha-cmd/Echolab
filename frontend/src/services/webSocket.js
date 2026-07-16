@@ -8,34 +8,38 @@ let openCallback = null;
 
 let closeCallback = null;
 
-
 let manualDisconnect = false;
-
 
 
 // =====================================
 // SOCKET URL
 // =====================================
 
-
 function getSocketURL(){
 
-
+    // Render / Production URL
     if(import.meta.env.VITE_WS_URL){
 
-
         return import.meta.env.VITE_WS_URL;
-
 
     }
 
 
+    // Production fallback
+    if(
+        window.location.hostname !== "localhost" &&
+        window.location.hostname !== "127.0.0.1"
+    ){
 
+        return "wss://YOUR-BACKEND-URL.onrender.com";
+
+    }
+
+
+    // Local Development
     return "ws://localhost:5003";
 
-
 }
-
 
 
 
@@ -44,7 +48,6 @@ function getSocketURL(){
 // =====================================
 // CONNECT
 // =====================================
-
 
 export function connectSocket(
 
@@ -57,7 +60,6 @@ export function connectSocket(
 ){
 
 
-
     messageCallback = onMessage;
 
     openCallback = onOpen;
@@ -65,9 +67,7 @@ export function connectSocket(
     closeCallback = onClose;
 
 
-
-    manualDisconnect=false;
-
+    manualDisconnect = false;
 
 
     createConnection();
@@ -84,42 +84,31 @@ export function connectSocket(
 function createConnection(){
 
 
-
-    const url=getSocketURL();
-
+    const url = getSocketURL();
 
 
     console.log(
-
         "🔌 Connecting WebSocket:",
-
         url
-
     );
 
 
 
-
-    socket=new WebSocket(url);
-
+    socket = new WebSocket(url);
 
 
 
 
-
-    socket.onopen=()=>{
-
+    socket.onopen = ()=>{
 
 
         console.log(
-
             "✅ WebSocket Connected"
-
         );
 
 
 
-
+        // Identify as dashboard
 
         socket.send(
 
@@ -133,12 +122,11 @@ function createConnection(){
 
 
 
-
-
-        if(openCallback)
+        if(openCallback){
 
             openCallback();
 
+        }
 
 
     };
@@ -149,49 +137,38 @@ function createConnection(){
 
 
 
-
-
-    socket.onmessage=(event)=>{
+    socket.onmessage = (event)=>{
 
 
         try{
 
 
-            const message=
-
+            const message =
                 JSON.parse(event.data);
 
 
 
-
-
             console.log(
-
                 "📩 WS Message:",
-
                 message
-
             );
 
 
 
-
-
-            if(messageCallback)
+            if(messageCallback){
 
                 messageCallback(message);
 
+            }
 
 
         }
-
         catch(error){
-
 
 
             console.log(
 
-                "❌ JSON Error:",
+                "❌ JSON Parse Error:",
 
                 error.message
 
@@ -201,7 +178,6 @@ function createConnection(){
         }
 
 
-
     };
 
 
@@ -210,10 +186,7 @@ function createConnection(){
 
 
 
-
-
-
-    socket.onerror=(error)=>{
+    socket.onerror = (error)=>{
 
 
         console.log(
@@ -233,8 +206,7 @@ function createConnection(){
 
 
 
-
-    socket.onclose=()=>{
+    socket.onclose = ()=>{
 
 
         console.log(
@@ -245,29 +217,22 @@ function createConnection(){
 
 
 
-
-
-        if(closeCallback)
+        if(closeCallback){
 
             closeCallback();
-
-
-
-
-
-
-        if(!manualDisconnect){
-
-
-            reconnect();
-
 
         }
 
 
 
-    };
+        if(!manualDisconnect){
 
+            reconnect();
+
+        }
+
+
+    };
 
 
 }
@@ -284,35 +249,28 @@ function createConnection(){
 // AUTO RECONNECT
 // =====================================
 
-
 function reconnect(){
 
 
-
-    if(reconnectTimer)
+    if(reconnectTimer){
 
         return;
 
+    }
 
 
 
-
-    reconnectTimer=setTimeout(()=>{
-
+    reconnectTimer = setTimeout(()=>{
 
 
-        reconnectTimer=null;
-
-
+        reconnectTimer = null;
 
 
         console.log(
 
-            "🔄 Reconnecting..."
+            "🔄 Reconnecting WebSocket..."
 
         );
-
-
 
 
 
@@ -320,9 +278,7 @@ function reconnect(){
 
 
 
-
     },3000);
-
 
 
 }
@@ -335,14 +291,11 @@ function reconnect(){
 
 
 
-
 // =====================================
-// SEND
+// SEND MESSAGE
 // =====================================
-
 
 export function sendMessage(message){
-
 
 
     console.log(
@@ -355,16 +308,13 @@ export function sendMessage(message){
 
 
 
-
-
     if(
 
         socket &&
 
-        socket.readyState===WebSocket.OPEN
+        socket.readyState === WebSocket.OPEN
 
     ){
-
 
 
         socket.send(
@@ -375,19 +325,17 @@ export function sendMessage(message){
 
 
     }
-
     else{
 
 
         console.log(
 
-            "⚠ WebSocket unavailable"
+            "⚠ WebSocket Not Connected"
 
         );
 
 
     }
-
 
 
 }
@@ -404,9 +352,7 @@ export function sendMessage(message){
 // DISCONNECT
 // =====================================
 
-
 export function disconnectSocket(){
-
 
 
     console.log(
@@ -417,10 +363,7 @@ export function disconnectSocket(){
 
 
 
-
-    manualDisconnect=true;
-
-
+    manualDisconnect = true;
 
 
 
@@ -430,11 +373,10 @@ export function disconnectSocket(){
         clearTimeout(reconnectTimer);
 
 
-        reconnectTimer=null;
+        reconnectTimer = null;
 
 
     }
-
 
 
 
@@ -443,16 +385,13 @@ export function disconnectSocket(){
     if(socket){
 
 
-
         socket.close();
 
 
-        socket=null;
-
+        socket = null;
 
 
     }
-
 
 
 }

@@ -3,115 +3,248 @@ const WebSocket = require("ws");
 const bridgeStore = require("../services/bridgeStore");
 const dashboardStore = require("../services/dashboardStore");
 const deviceStore = require("../services/deviceStore");
-const telemetryService = require("../telemetry/telemetryService");
+const telemetryService = require("../telementry/telementryService");
 
-module.exports = function (server) {
 
-    const wss = new WebSocket.Server({ server });
 
-    console.log("✅ WebSocket Started");
+module.exports = function(server){
 
-    wss.on("connection", (socket) => {
 
-        console.log("🔗 New WebSocket Connection");
+    const wss = new WebSocket.Server({
+        server
+    });
 
-        let bridgeId = "";
-        let client = "";
 
-        socket.on("message", (message) => {
 
-            try {
+    console.log(
+        "✅ WebSocket Server Started"
+    );
 
-                const data = JSON.parse(message);
 
-                console.log("📥 Received:", data);
 
-                switch (data.type) {
+    // =========================================
+    // HEARTBEAT
+    // =========================================
 
-                    // =========================================
-                    // BRIDGE CONNECTED
-                    // =========================================
+    const heartbeat = setInterval(()=>{
+
+
+        wss.clients.forEach((socket)=>{
+
+
+            if(socket.isAlive === false){
+
+                return socket.terminate();
+
+            }
+
+
+            socket.isAlive = false;
+
+
+            if(socket.readyState === WebSocket.OPEN){
+
+                socket.ping();
+
+            }
+
+
+        });
+
+
+    },30000);
+
+
+
+
+
+    wss.on("connection",(socket)=>{
+
+
+        console.log(
+            "🔗 New WebSocket Connection"
+        );
+
+
+        socket.isAlive = true;
+
+
+
+        socket.on("pong",()=>{
+
+            socket.isAlive=true;
+
+        });
+
+
+
+        let client="";
+        let bridgeId="";
+
+
+
+
+        socket.on("message",(message)=>{
+
+
+            try{
+
+
+                const data =
+                    JSON.parse(message);
+
+
+
+                console.log(
+                    "📥 Received:",
+                    data
+                );
+
+
+
+                switch(data.type){
+
+
+
+                    // =====================================
+                    // LOCAL BRIDGE CONNECT
+                    // =====================================
 
                     case "bridge":
 
-                        client = "bridge";
-                        bridgeId = data.bridgeId;
+
+                        client="bridge";
+
+                        bridgeId=data.bridgeId;
+
+
 
                         bridgeStore.addBridge(
+
                             bridgeId,
+
                             socket,
+
                             {
-                                ip: socket._socket.remoteAddress
+
+                                ip:
+                                socket._socket.remoteAddress
+
                             }
+
                         );
+
+
 
                         dashboardStore.broadcast({
 
-                            type: "bridge",
+                            type:"bridge",
 
-                            connected: true,
+                            connected:true,
 
                             bridgeId
 
                         });
 
-                        console.log(`✅ Bridge Connected : ${bridgeId}`);
 
-                        break;
-
-                    // =========================================
-                    // DASHBOARD CONNECTED
-                    // =========================================
-
-                    case "dashboard":
-
-                        client = "dashboard";
-
-                        dashboardStore.addDashboard(socket);
-
-                        console.log("🖥 Dashboard Connected");
-
-                        socket.send(JSON.stringify({
-
-                            type: "devices",
-
-                            devices: deviceStore.getDevices()
-
-                        }));
-
-                        socket.send(JSON.stringify({
-
-                            type: "telemetry",
-
-                            history: telemetryService.allHistory()
-
-                        }));
-
-                        socket.send(JSON.stringify({
-
-                            type: "bridge",
-
-                            connected: bridgeStore.hasBridge("lab001")
-
-                        }));
-
-                        break;
-
-                    // =========================================
-                    // STATUS FROM BRIDGE
-                    // =========================================
-
-                    case "status":
-
-                        bridgeStore.updateHeartbeat(data.bridgeId);
 
                         console.log(
 
-                            `📡 ${data.deviceId} Status`,
-
-                            data.payload
+                            `🌉 Bridge Connected : ${bridgeId}`
 
                         );
+
+
+
+                        break;
+
+
+
+
+
+                    // =====================================
+                    // DASHBOARD CONNECT
+                    // =====================================
+
+                    case "dashboard":
+
+
+                        client="dashboard";
+
+
+
+                        dashboardStore.addDashboard(
+                            socket
+                        );
+
+
+
+                        console.log(
+                            "🖥 Dashboard Connected"
+                        );
+
+
+
+
+                        socket.send(JSON.stringify({
+
+                            type:"devices",
+
+                            devices:
+                            deviceStore.getDevices()
+
+                        }));
+
+
+
+
+                        socket.send(JSON.stringify({
+
+                            type:"telemetry",
+
+                            history:
+                            telemetryService.allHistory()
+
+                        }));
+
+
+
+
+                        socket.send(JSON.stringify({
+
+                            type:"bridge",
+
+                            connected:
+                            bridgeStore.hasBridge(
+                                "lab001"
+                            )
+
+                        }));
+
+
+
+                        break;
+
+
+
+
+
+
+
+                    // =====================================
+                    // DEVICE STATUS FROM BRIDGE
+                    // =====================================
+
+                    case "status":
+
+
+
+                        bridgeStore.updateHeartbeat(
+                            data.bridgeId
+                        );
+
+
+
 
                         deviceStore.updateDevice(
 
@@ -121,6 +254,9 @@ module.exports = function (server) {
 
                         );
 
+
+
+
                         telemetryService.save(
 
                             data.deviceId,
@@ -129,49 +265,72 @@ module.exports = function (server) {
 
                         );
 
+
+
+
                         dashboardStore.broadcast({
 
-                            type: "status",
+                            type:"status",
 
-                            deviceId: data.deviceId,
+                            deviceId:data.deviceId,
 
-                            payload: data.payload
+                            payload:data.payload
 
                         });
 
+
+
                         break;
 
-                    // =========================================
+
+
+
+
+
+                    // =====================================
                     // COMMAND FROM DASHBOARD
-                    // =========================================
+                    // =====================================
 
                     case "command":
 
-                        console.log("📤 Command");
 
-                        console.log(data);
 
-                        const bridge = bridgeStore.getBridge(
-
-                            data.bridgeId
-
+                        console.log(
+                            "📤 Device Command:",
+                            data
                         );
 
-                        if (!bridge) {
 
-                            console.log("❌ Bridge Not Found");
+
+                        const bridge =
+                            bridgeStore.getBridge(
+                                data.bridgeId
+                            );
+
+
+
+
+                        if(!bridge){
+
+
+                            console.log(
+                                "❌ Bridge Offline"
+                            );
+
 
                             break;
 
+
                         }
 
-                        if (
 
+
+
+                        if(
                             bridge.socket.readyState ===
-
                             WebSocket.OPEN
+                        ){
 
-                        ) {
 
                             bridge.socket.send(
 
@@ -179,64 +338,133 @@ module.exports = function (server) {
 
                             );
 
+
                             console.log(
 
-                                "✅ Command Forwarded"
+                                "✅ Command Sent To Bridge"
 
                             );
 
+
                         }
+
+
 
                         break;
 
+
+
+
+
+
                     default:
 
-                        console.log("⚠ Unknown Message");
 
-                        console.log(data);
+                        console.log(
+
+                            "⚠ Unknown Message Type"
+
+                        );
+
 
                 }
 
-            }
 
-            catch (err) {
-
-                console.log("❌ Invalid Message");
-
-                console.log(err.message);
 
             }
+            catch(error){
+
+
+                console.log(
+                    "❌ Message Error:",
+                    error.message
+                );
+
+
+            }
+
+
 
         });
 
-        socket.on("close", () => {
 
-            console.log(`❌ ${client} Disconnected`);
 
-            if (client === "bridge") {
 
-                bridgeStore.removeBridge(bridgeId);
+
+
+
+
+        socket.on("close",()=>{
+
+
+            console.log(
+
+                `❌ ${client} Disconnected`
+
+            );
+
+
+
+            if(client==="bridge"){
+
+
+                bridgeStore.removeBridge(
+                    bridgeId
+                );
+
+
 
                 dashboardStore.broadcast({
 
-                    type: "bridge",
+                    type:"bridge",
 
-                    connected: false,
+                    connected:false,
 
                     bridgeId
 
                 });
 
-            }
-
-            if (client === "dashboard") {
-
-                dashboardStore.removeDashboard(socket);
 
             }
+
+
+
+
+
+            if(client==="dashboard"){
+
+
+                dashboardStore.removeDashboard(
+                    socket
+                );
+
+
+            }
+
+
 
         });
 
+
+
     });
+
+
+
+
+
+
+
+    wss.on("close",()=>{
+
+
+        clearInterval(
+            heartbeat
+        );
+
+
+    });
+
+
 
 };
