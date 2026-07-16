@@ -31,7 +31,7 @@ function getSocketURL(){
         window.location.hostname !== "127.0.0.1"
     ){
 
-        return "wss://YOUR-BACKEND-URL.onrender.com";
+        return "return wss://your-real-backend-url.onrender.com";
 
     }
 
